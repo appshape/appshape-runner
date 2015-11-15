@@ -34,4 +34,29 @@ describe Request do
       request.data_points.length.must_equal @data['data_points'].length
     end
   end
+
+  describe 'Request#requires_basic_auth?' do
+    describe 'basic auth data is present' do
+      before do
+        @request = Request.new.tap do |request|
+          request.basic_auth_user = nil
+          request.basic_auth_password = 'password'
+        end
+      end
+
+      it 'must return true' do
+        @request.requires_basic_auth?.must_equal true
+      end
+    end
+
+    describe 'basic auth data is missing' do
+      before do
+        @request = Request.new
+      end
+
+      it 'must return false' do
+        @request.requires_basic_auth?.must_equal false
+      end
+    end
+  end
 end
