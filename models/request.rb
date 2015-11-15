@@ -6,6 +6,18 @@ class Request
     !basic_auth_password.nil? || !basic_auth_password.nil?
   end
 
+  def requires_url_params?
+    !url_params.nil? && !url_params.empty?
+  end
+
+  def requires_form_params?
+    !form_params.nil? && !form_params.empty?
+  end
+
+  def requires_headers?
+    !headers.nil? && !headers.empty?
+  end
+
   def self.from_json(data)
     self.new.tap do |request|
       request.url = data['url']

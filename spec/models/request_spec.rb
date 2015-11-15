@@ -59,4 +59,41 @@ describe Request do
       end
     end
   end
+
+  describe 'Request#requires_url_params?' do
+    it 'must return true when url params are present' do
+      @request = Request.new.tap { |request| request.url_params = [1,2,3] }
+      @request.requires_url_params?.must_equal true
+    end
+
+    it 'must return false when url params are missing' do
+      @request = Request.new.tap { |request| request.url_params = [] }
+      @request.requires_url_params?.must_equal false
+    end
+  end
+
+  describe 'Request#requires_form_params?' do
+    it 'must return true when form params are present' do
+      @request = Request.new.tap { |request| request.form_params = [1,2,3] }
+      @request.requires_form_params?.must_equal true
+    end
+
+    it 'must return false when url params are missing' do
+      @request = Request.new.tap { |request| request.form_params = [] }
+      @request.requires_form_params?.must_equal false
+    end
+  end
+
+  describe 'Request#requires_headers?' do
+    it 'must return true when form params are present' do
+      @request = Request.new.tap { |request| request.headers = [1,2,3] }
+      @request.requires_headers?.must_equal true
+    end
+
+    it 'must return false when url params are missing' do
+      @request = Request.new.tap { |request| request.headers = [] }
+      @request.requires_headers?.must_equal false
+    end
+  end
+
 end
