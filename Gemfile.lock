@@ -5,6 +5,7 @@ GEM
     dotenv (2.0.2)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
+    minitest (5.8.2)
     multipart-post (2.0.0)
     slop (4.2.0)
 
@@ -15,6 +16,7 @@ DEPENDENCIES
   beaneater
   dotenv
   faraday
+  minitest
   slop
 
 BUNDLED WITH
