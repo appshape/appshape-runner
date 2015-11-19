@@ -8,11 +8,12 @@ describe Request do
           'http_method' => 'post',
           'basic_auth_user' => 'test',
           'basic_auth_password' => 'test',
-          'headers' => [],
-          'url_params' => [],
-          'form_params' => [],
+          'headers' => [{ 'name' => 'User-Agent', 'value' => 'AppShape' }],
+          'url_params' => [{ 'name' => 'test', 'value' => 'test' }],
+          'form_params' => [{ 'name' => 'test', 'value' => 'test' }],
           'assertions' => [],
-          'data_points' => []
+          'data_points' => [],
+          'body' => 'body'
       }
     end
 
@@ -23,15 +24,26 @@ describe Request do
     it 'must assign all required attributes' do
       request = Request.from_json(@data)
 
-      request.url.must_equal @data['url']
+      request.uri.to_s.must_equal @data['url']
       request.http_method.must_equal @data['http_method']
       request.basic_auth_user.must_equal @data['basic_auth_user']
       request.basic_auth_password.must_equal @data['basic_auth_password']
-      request.headers.length.must_equal @data['headers'].length
-      request.url_params.length.must_equal @data['url_params'].length
-      request.form_params.length.must_equal @data['form_params'].length
+
+      request.headers.is_a?(Hash).must_equal true
+      request.headers.key?('User-Agent').must_equal true
+      request.headers['User-Agent'].must_equal 'AppShape'
+
+      request.url_params.is_a?(Hash).must_equal true
+      request.url_params.key?('test').must_equal true
+      request.url_params['test'].must_equal 'test'
+
+      request.form_params.is_a?(Hash).must_equal true
+      request.form_params.key?('test').must_equal true
+      request.form_params['test'].must_equal 'test'
+
       request.assertions.length.must_equal @data['assertions'].length
       request.data_points.length.must_equal @data['data_points'].length
+      request.body.must_equal @data['body']
     end
   end
 
@@ -93,6 +105,24 @@ describe Request do
     it 'must return false when url params are missing' do
       @request = Request.new.tap { |request| request.headers = [] }
       @request.requires_headers?.must_equal false
+    end
+  end
+
+  describe 'Request#base_url' do
+    let(:expected_domain) { 'http://test-domain.com' }
+
+    it 'must return correct base url for random inputs' do
+      @request = Request.new.tap { |request| request.uri =  URI('http://test-domain.com/') }
+      @request.base_url.must_equal 'http://test-domain.com'
+
+      @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder') }
+      @request.base_url.must_equal 'http://test-domain.com'
+
+      @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder?param') }
+      @request.base_url.must_equal 'http://test-domain.com'
+
+      @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder#param') }
+      @request.base_url.must_equal 'http://test-domain.com'
     end
   end
 

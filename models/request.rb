@@ -1,6 +1,16 @@
+require 'uri'
+
 class Request
-  attr_accessor :url, :http_method, :basic_auth_user, :basic_auth_password,
-                :headers, :url_params, :form_params, :assertions, :data_points
+  attr_accessor :uri, :http_method, :basic_auth_user, :basic_auth_password,
+                :headers, :body, :url_params, :form_params, :assertions, :data_points
+
+  def base_url
+    "#{uri.scheme}://#{uri.host}"
+  end
+
+  def path_and_query
+    "#{uri.path}?#{uri.query}##{uri.fragment}"
+  end
 
   def requires_basic_auth?
     !basic_auth_password.nil? || !basic_auth_password.nil?
@@ -18,17 +28,27 @@ class Request
     !headers.nil? && !headers.empty?
   end
 
+  def request_body
+    body.nil? ? form_params : body
+  end
+
   def self.from_json(data)
     self.new.tap do |request|
-      request.url = data['url']
+      request.uri = URI(data['url'])
       request.http_method = data['http_method']
       request.basic_auth_user = data['basic_auth_user']
       request.basic_auth_password = data['basic_auth_password']
-      request.headers = data['headers'] || []
-      request.url_params = data['url_params'] || []
-      request.form_params = data['form_params'] || []
+      request.headers = convert_to_key_value_hash(data['headers'] || [])
+      request.url_params = convert_to_key_value_hash(data['url_params'] || [])
+      request.form_params = convert_to_key_value_hash(data['form_params'] || [])
       request.assertions = data['assertions'] || []
       request.data_points = data['data_points'] || []
+      request.body = data['body']
     end
+  end
+
+  private
+  def self.convert_to_key_value_hash(input, key_field = 'name', value_field = 'value')
+    input.inject({}) { |memo, entry| memo[entry[key_field]] = entry[value_field]; memo }
   end
 end
