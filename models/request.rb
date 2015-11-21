@@ -5,7 +5,7 @@ class Request
                 :headers, :body, :url_params, :form_params, :assertions, :data_points
 
   def base_url
-    "#{uri.scheme}://#{uri.host}"
+    "#{uri.scheme}://#{uri.host}:#{uri.port}"
   end
 
   def path_and_query

@@ -113,16 +113,16 @@ describe Request do
 
     it 'must return correct base url for random inputs' do
       @request = Request.new.tap { |request| request.uri =  URI('http://test-domain.com/') }
-      @request.base_url.must_equal 'http://test-domain.com'
+      @request.base_url.must_equal 'http://test-domain.com:80'
 
       @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder') }
-      @request.base_url.must_equal 'http://test-domain.com'
+      @request.base_url.must_equal 'http://test-domain.com:80'
 
       @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder?param') }
-      @request.base_url.must_equal 'http://test-domain.com'
+      @request.base_url.must_equal 'http://test-domain.com:80'
 
       @request = Request.new.tap { |request| request.uri = URI('http://test-domain.com/subfolder#param') }
-      @request.base_url.must_equal 'http://test-domain.com'
+      @request.base_url.must_equal 'http://test-domain.com:80'
     end
   end
 

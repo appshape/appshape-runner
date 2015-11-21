@@ -5,6 +5,6 @@ class RequestExecutor
   end
 
   def execute
-    @connection.run_request(@request.http_method, @request.path_and_query, @request.request_body, nil)
+    @connection.run_request(@request.http_method.to_sym, @request.path_and_query, @request.request_body, nil)
   end
 end

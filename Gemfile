@@ -8,6 +8,7 @@ gem 'slop'
 gem 'minitest'
 gem 'parallel'
 gem 'excon'
+gem 'json'
 
 group :development do
   gem 'byebug'
@@ -15,4 +16,5 @@ end
 
 group :test do
   gem 'sinatra'
+  gem 'sinatra-contrib'
 end
