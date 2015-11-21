@@ -13,7 +13,9 @@ module AppShapeRunner
           http_method: request.request_method.downcase,
           query_string_params: request.GET,
           form_params: request.POST,
-          headers: Hash[env.select { |k,v| k.start_with?('HTTP_') }.map { |k,v| [k.sub(/^HTTP_/, ''), v] }]
+          headers: Hash[env.select { |k,v| k.start_with?('HTTP_') }.map { |k,v| [k.sub(/^HTTP_/, ''), v] }],
+          content_type: request.content_type,
+          body: request.body.read
         }
 
         json output
