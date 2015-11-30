@@ -10,10 +10,7 @@ describe RequestExecutor do
 
     it 'must execute request with correct http method' do
       %w{get post put patch delete options}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo
 
         response = RequestExecutor.new(request).execute
 
@@ -23,11 +20,7 @@ describe RequestExecutor do
 
     it 'must pass url parameters' do
       %w{get post put patch delete options}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-          request.url_params = { 'test' => 'test' }
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo(url_params: { 'test' => 'test' })
 
         response = RequestExecutor.new(request).execute
 
@@ -38,12 +31,7 @@ describe RequestExecutor do
 
     it 'must pass form parameters' do
       %w{post put patch delete}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-          request.form_params = { 'test' => 'test' }
-          request.body = nil
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo(form_params: { 'test' => 'test' }, body: nil)
 
         response = RequestExecutor.new(request).execute
 
@@ -54,11 +42,7 @@ describe RequestExecutor do
 
     it 'must pass request body' do
       %w{post put patch delete}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-          request.body = '{"test": "test"}'
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo(body: '{"test": "test"}')
 
         response = RequestExecutor.new(request).execute
 
@@ -68,11 +52,7 @@ describe RequestExecutor do
 
     it 'must pass correct headers' do
       %w{get post put patch delete options}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-          request.headers = { 'User-Agent' => 'AppShape', 'Content-Type' => 'application/json' }
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo(body: nil, headers: { 'User-Agent' => 'AppShape' })
 
         response = RequestExecutor.new(request).execute
 
@@ -83,15 +63,10 @@ describe RequestExecutor do
 
     it 'must set correct content type' do
       %w{post put patch delete options}.each do |method|
-        request = Request.new.tap do |request|
-          request.uri = URI(url)
-          request.http_method = method
-          request.headers = { 'Content-Type' => 'application/json' }
-        end
+        request = TestRequestsBuilder.new(method.to_sym).echo(body: nil, headers: { 'Accept' => 'Accept: audio/*; q=0.2, audio/basic' })
 
         response = RequestExecutor.new(request).execute
-
-        json_response(response)['content_type'].must_equal 'application/json'
+        json_response(response)['headers']['ACCEPT'].must_equal 'Accept: audio/*; q=0.2, audio/basic'
       end
     end
   end
