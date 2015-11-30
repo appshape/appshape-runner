@@ -13,7 +13,7 @@ module Condition
     end
 
     def isArray?(value)
-      value.respond_to?(:include?)
+      value.respond_to?(:include?) && value.respond_to?(:map)
     end
   end
 end
