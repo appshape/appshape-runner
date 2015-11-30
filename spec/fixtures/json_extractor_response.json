@@ -1,0 +1,16 @@
+{
+  "status": "ok",
+  "products": [
+    { "id": 1, "name": "Product 1", "score": 12.4 },
+    { "id": 2, "name": "Product 2" }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "quantity": 12,
+      "product": {
+        "id": 1, "name": "Product 1", "score": 12.4
+      }
+    }
+  ]
+}

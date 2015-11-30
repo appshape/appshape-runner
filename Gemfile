@@ -9,6 +9,8 @@ gem 'minitest'
 gem 'parallel'
 gem 'excon'
 gem 'json'
+gem 'jsonpath'
+gem 'nokogiri'
 
 group :development do
   gem 'byebug'

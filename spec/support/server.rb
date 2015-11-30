@@ -22,6 +22,24 @@ module AppShapeRunner
       end
     end
 
+    get '/json_extractor' do
+      output = File.read("#{File.dirname(__FILE__)}/../fixtures/json_extractor_response.json")
+      body output
+    end
+
+    get '/xml_extractor' do
+      output = File.read("#{File.dirname(__FILE__)}/../fixtures/xml_extractor_response.xml")
+      body output
+    end
+
+    get '/error_500' do
+      status 500
+    end
+
+    get '/body' do
+      return 'response body'
+    end
+
     error do |e|
       "#{e.class}\n#{e.to_s}\n#{e.backtrace.join("\n")}"
     end

@@ -32,6 +32,10 @@ class Request
     body.nil? ? form_params : body
   end
 
+  def sources
+    (assertions.map(&:source_code) + data_points.map(&:source_code)).uniq
+  end
+
   def self.from_json(data)
     self.new.tap do |request|
       request.uri = URI(data['url'])
