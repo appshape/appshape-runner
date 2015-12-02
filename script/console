@@ -3,7 +3,13 @@
 require 'irb'
 require 'irb/completion'
 
-require_relative '../config/application'
+$:.unshift "#{File.dirname(__FILE__)}/../config"
+
+def reload!
+  eval(File.read("#{File.dirname(__FILE__)}/../config/application.rb").gsub('require_relative', 'load'))
+end
+
+reload!
 
 require 'byebug'
 
