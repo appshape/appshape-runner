@@ -11,6 +11,7 @@ gem 'excon'
 gem 'json'
 gem 'jsonpath'
 gem 'nokogiri'
+gem 'bigdecimal'
 
 group :development do
   gem 'byebug'

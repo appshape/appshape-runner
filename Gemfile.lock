@@ -3,6 +3,7 @@ GEM
   specs:
     backports (3.6.7)
     beaneater (1.0.0)
+    bigdecimal (1.2.6)
     byebug (8.2.0)
     dotenv (2.0.2)
     excon (0.45.4)
@@ -44,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   beaneater
+  bigdecimal
   byebug
   dotenv
   excon
