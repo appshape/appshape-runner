@@ -6,7 +6,7 @@ require 'irb/completion'
 $:.unshift "#{File.dirname(__FILE__)}/../config"
 
 def reload!
-  eval(File.read("#{File.dirname(__FILE__)}/../config/application.rb").gsub('require_relative', 'load'))
+  load File.expand_path('../../config/application.rb', __FILE__)
 end
 
 reload!
