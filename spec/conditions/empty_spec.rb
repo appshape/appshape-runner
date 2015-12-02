@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe Condition::Empty do
-  describe 'Condition::Contain.compare' do
+  describe 'Condition::Empty.compare' do
     it 'compares correctly' do
       Condition::Empty.new.compare(nil).must_equal true
       Condition::Empty.new.compare([]).must_equal true
