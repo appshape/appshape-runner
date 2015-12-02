@@ -3,8 +3,6 @@
 require 'irb'
 require 'irb/completion'
 
-$:.unshift "#{File.dirname(__FILE__)}/../config"
-
 def reload!
   load File.expand_path('../../config/application.rb', __FILE__)
 end
