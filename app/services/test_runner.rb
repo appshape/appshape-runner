@@ -6,6 +6,7 @@ class TestRunner
   def execute
     @test.requests.each do |request|
       response = RequestExecutor.new(request).execute
+      s3_object_name = ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body)
       extractors = initialize_extractors(request, response)
 
       test_results = collect_test_results(request, extractors)

@@ -12,6 +12,7 @@ gem 'json'
 gem 'jsonpath'
 gem 'nokogiri'
 gem 'bigdecimal'
+gem 'aws-sdk', '~> 2'
 
 group :development do
   gem 'byebug'

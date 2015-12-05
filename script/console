@@ -2,13 +2,12 @@
 
 require 'irb'
 require 'irb/completion'
+require 'byebug'
 
 def reload!
   load File.expand_path('../../config/application.rb', __FILE__)
 end
 
 reload!
-
-require 'byebug'
 
 IRB.start

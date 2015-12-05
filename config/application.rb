@@ -20,6 +20,7 @@ load File.expand_path('../../app/services/extractor_factory.rb', __FILE__)
 load File.expand_path('../../app/services/request_builder.rb', __FILE__)
 load File.expand_path('../../app/services/request_executor.rb', __FILE__)
 load File.expand_path('../../app/services/test_runner.rb', __FILE__)
+load File.expand_path('../../app/services/response_uploader.rb', __FILE__)
 
 # extractors
 load File.expand_path('../../app/extractors/base.rb', __FILE__)
