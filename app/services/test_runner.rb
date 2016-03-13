@@ -4,13 +4,20 @@ class TestRunner
   end
 
   def execute
-    @test.requests.each do |request|
+    @test.requests.map do |request|
+
+      Logger.instance.info "[T: #{@test.id}][TR: #{@test.run_id}] #{request.http_method.upcase} #{request.base_url}#{request.path_and_query}"
+
       response = RequestExecutor.new(request).execute
-      s3_object_name = ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body)
       extractors = initialize_extractors(request, response)
 
-      test_results = collect_test_results(request, extractors)
-      data_points = collect_data_points(request, extractors)
+      {
+        request_id: request.id,
+        failed_assertions: collect_test_results(request, extractors),
+        data_points: collect_data_points(request, extractors),
+        s3_object_name: ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body),
+        executed_at: Time.now.to_i
+      }
     end
   end
 

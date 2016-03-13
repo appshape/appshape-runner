@@ -1,9 +1,11 @@
 require 'bundler'
 Bundler.require
 
-ENV['RUNNER_ENV'] ||= 'development'
+ENV['APPLICATION_ENV'] ||= 'development'
 
 Dotenv.load
+
+load File.expand_path('../../app/logger.rb', __FILE__)
 
 #models
 load File.expand_path('../../app/models/assertion.rb', __FILE__)

@@ -11,6 +11,8 @@ class ResponseUploader
     Thread.new do
       upload(response_body)
     end
+
+    @s3_object_name
   end
 
   def upload(response_body)

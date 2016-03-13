@@ -1,7 +1,7 @@
 require 'uri'
 
 class Request
-  attr_accessor :uri, :http_method, :basic_auth_user, :basic_auth_password,
+  attr_accessor :id, :uri, :http_method, :basic_auth_user, :basic_auth_password,
                 :headers, :body, :url_params, :form_params, :assertions, :data_points
 
   def base_url
@@ -38,6 +38,7 @@ class Request
 
   def self.from_json(data)
     self.new.tap do |request|
+      request.id = data['id']
       request.uri = URI(data['url'])
       request.http_method = data['http_method']
       request.basic_auth_user = data['basic_auth_user']
