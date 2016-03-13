@@ -12,14 +12,12 @@ class TestRunner
 
       extractors = initialize_extractors(request, response)
 
-      puts 'after extractors'
-
       {
         request_id: request.id,
         failed_assertions: collect_test_results(request, extractors),
         data_points: collect_data_points(request, extractors),
         s3_object_name: 'some name',#ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body),
-        executed_at: Time.now.to_i
+        executed_at: Time.now.iso8601
       }
     end
   end
