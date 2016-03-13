@@ -1,5 +1,5 @@
-@options = Slop.parse do |o|
-  o.array '--locations', 'list of locations that should be watched', delimiter: ','
+@options = Slop.parse do
+  on :locations=, as: Array, delimiter: ','
 end
 
 unless @options[:locations].is_a?(Array) && @options[:locations].length > 0

@@ -9,13 +9,16 @@ class TestRunner
       Logger.instance.info "[T: #{@test.id}][TR: #{@test.run_id}] #{request.http_method.upcase} #{request.base_url}#{request.path_and_query}"
 
       response = RequestExecutor.new(request).execute
+
       extractors = initialize_extractors(request, response)
+
+      puts 'after extractors'
 
       {
         request_id: request.id,
         failed_assertions: collect_test_results(request, extractors),
         data_points: collect_data_points(request, extractors),
-        s3_object_name: ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body),
+        s3_object_name: 'some name',#ResponseUploader.new(@test.id, @test.run_id).async_upload(response.body),
         executed_at: Time.now.to_i
       }
     end
@@ -32,12 +35,12 @@ class TestRunner
   def collect_test_results(request, extractors)
     request.assertions.map do |assertion|
       AssertionTester.new(assertion, extractors[assertion.source_code]).test
-    end
+    end.compact
   end
 
   def collect_data_points(request, extractors)
     request.data_points.map do |data_point|
-      DataPointCollector.new(data_point, extractors[assertion.source_code]).collect
-    end
+      DataPointCollector.new(data_point, extractors[data_point.source_code]).collect
+    end.compact
   end
 end

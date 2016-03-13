@@ -46,8 +46,8 @@ class Request
       request.headers = convert_to_key_value_hash(data['headers'] || [])
       request.url_params = convert_to_key_value_hash(data['url_params'] || [])
       request.form_params = convert_to_key_value_hash(data['form_params'] || [])
-      request.assertions = data['assertions'] || []
-      request.data_points = data['data_points'] || []
+      request.assertions = (data['assertions'] || []).map { |assertion| Assertion.from_json(assertion) }
+      request.data_points = (data['data_points'] || []).map { |data_point| DataPoint.from_json(data_point) }
       request.body = data['body']
     end
   end

@@ -1,7 +1,7 @@
-def Assertion
+class Assertion
   attr_accessor :source_code, :property, :condition_code, :value
 
-  def from_json(data)
+  def self.from_json(data)
     Assertion.new.tap do |assertion|
       assertion.source_code = data['source_code']
       assertion.property = data['property']

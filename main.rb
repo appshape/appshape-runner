@@ -9,16 +9,22 @@ Logger.instance.debug "results queue url #{ENV['BEANSTALKD_RESULTS_URL']}"
 
 @options[:locations].each do |location|
   @beanstalk.jobs.register("tests-#{location}-queue") do |job|
-    test = Test.from_json(JSON.parse(job.body))
+    begin
+      test = Test.from_json(JSON.parse(job.body))
 
-    Logger.instance.info "[T: #{test.id}][TR: #{test.run_id}] performing test..."
+      Logger.instance.info "[T: #{test.id}][TR: #{test.run_id}] performing test..."
 
-    results = TestRunner.new(test).execute
+      results = TestRunner.new(test).execute
+      Logger.instance.debug "[T: #{test.id}][TR: #{test.run_id}] results: #{results}"
 
-    @beanstalk_results.tubes.find('test-results').put({
-      run_id: test.run_id,
-      results: results
-    }.to_json)
+      @beanstalk_results.tubes.find('test-results').put({
+        run_id: test.run_id,
+        results: results
+      }.to_json)
+    rescue Exception => ex
+      puts ex
+      puts ex.backtrace.join('\n')
+    end
   end
 end
 

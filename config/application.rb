@@ -1,7 +1,9 @@
-require 'bundler'
-Bundler.require
-
 ENV['APPLICATION_ENV'] ||= 'development'
+
+require 'bundler'
+Bundler.require(:default, ENV['APPLICATION_ENV'])
+
+require 'active_support/core_ext/string'
 
 Dotenv.load
 

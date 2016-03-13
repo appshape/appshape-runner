@@ -13,9 +13,10 @@ gem 'nokogiri'
 gem 'bigdecimal'
 gem 'aws-sdk', '~> 2'
 gem 'logging'
+gem 'activesupport'
 
 group :development do
-  gem 'byebug'
+  gem 'pry-remote'
 end
 
 group :test do
