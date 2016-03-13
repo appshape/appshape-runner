@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'byebug'
 require 'json'
 
 ENV['APPLICATION_ENV'] = 'test'
