@@ -14,6 +14,7 @@ gem 'bigdecimal'
 gem 'aws-sdk', '~> 2'
 gem 'logging'
 gem 'activesupport'
+gem 'faraday_timing_middleware'
 
 group :development do
   gem 'pry-remote'

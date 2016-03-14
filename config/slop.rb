@@ -1,3 +1,4 @@
+require 'slop'
 @options = Slop.parse do
   on :locations=, as: Array, delimiter: ','
 end

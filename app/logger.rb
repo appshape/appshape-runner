@@ -1,5 +1,3 @@
-require 'logging'
-
 class Logger
   include Singleton
 

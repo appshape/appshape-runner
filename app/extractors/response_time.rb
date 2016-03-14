@@ -1,7 +1,7 @@
 module Extractors
   class ResponseTime < Extractors::Base
     def value(property = nil)
-      0
+      @response.headers['X-Faraday-Runtime'].to_f rescue nil
     end
   end
 end

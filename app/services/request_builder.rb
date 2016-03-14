@@ -10,6 +10,8 @@ class RequestBuilder
     }) do |connection|
       connection.basic_auth(@request.basic_auth_user, @request.basic_auth_password) if @request.requires_basic_auth?
       connection.request :url_encoded
+
+      connection.use :response_time
       connection.adapter :excon
     end
   end
