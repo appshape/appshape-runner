@@ -1,7 +1,7 @@
 module Condition
   class Base
     def toNumeric(value)
-      BigDecimal.new(value)
+      BigDecimal.new(value.to_s)
     end
 
     def isNumeric?(value)
